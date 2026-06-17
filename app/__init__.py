@@ -36,6 +36,11 @@ EDUCATION = [
 ]
 
 
+HOBBIES = [
+    {"name": "Swimming", "image": "img/swimming.jpg"},
+]
+
+
 @app.context_processor
 def inject_pages():
     return {"pages": PAGES, "url": os.getenv("URL")}
@@ -53,7 +58,7 @@ def experience():
 
 @app.route('/hobbies')
 def hobbies():
-    return render_template('hobbies.html', title="Hobbies")
+    return render_template('hobbies.html', title="Hobbies", hobbies=HOBBIES)
 
 
 @app.route('/travel')
