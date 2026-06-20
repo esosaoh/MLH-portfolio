@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon" />
+    <title>Portfolio</title>
+</head>
+
+<body>
+    <header class="nav-bar">
+        <nav class="nav-content">
+            <span class="nav-title">MLH Portfolios</span>
+        </nav>
+    </header>
+
+    <main class="content">
+        <section class="section landing-hero">
+            <h1>Choose a Portfolio</h1>
+            <p>Select whose portfolio you'd like to view.</p>
+        </section>
+
+        <div class="portfolio-grid">
+            <a href="/tarek/" class="portfolio-card">
+                <div class="card-avatar">
+                    <img src="{{ url_for('static', filename='img/TarekElsayed.jpg') }}" alt="Tarek Elsayed">
+                </div>
+                <h2>Tarek Elsayed</h2>
+                <p>Software Engineer &amp; Researcher<br>Vancouver, BC</p>
+            </a>
+
+            <a href="/esosa/" class="portfolio-card">
+                <div class="card-avatar">
+                    <img src="{{ url_for('static', filename='img/EsosaOhangbon.jpg') }}" alt="Esosa Ohangbon">
+                </div>
+                <h2>Esosa Ohangbon</h2>
+                <p>Software Engineering Student<br>Carleton University</p>
+            </a>
+        </div>
+    </main>
+</body>
+
+</html>

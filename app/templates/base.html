@@ -22,7 +22,7 @@
     <header class="nav-bar">
         <nav class="nav-content">
             {% for p in pages %}
-            <a href="{{ url_for(p.endpoint) }}">{{ p.name }}</a>
+            <a href="{{ p.url }}">{{ p.name }}</a>
             {% endfor %}
         </nav>
     </header>

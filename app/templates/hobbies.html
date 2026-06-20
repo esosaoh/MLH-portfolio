@@ -6,7 +6,9 @@
     {% for hobby in hobbies %}
     <div class="hobby">
         <h3>{{ hobby.name }}</h3>
+        {% if hobby.image %}
         <img src="{{ url_for('static', filename=hobby.image) }}" alt="{{ hobby.name }}">
+        {% endif %}
     </div>
     {% endfor %}
 </section>

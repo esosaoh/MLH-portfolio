@@ -3,7 +3,11 @@
 {% block content %}
 <div class="profile">
     <div class="profile-picture">
-        <img src="{{ url_for('static', filename='img/TarekElsayed.jpg') }}" alt="Tarek Elsayed">
+        {% if profile_img %}
+        <img src="{{ url_for('static', filename=profile_img) }}" alt="{{ title }}">
+        {% else %}
+        <div class="profile-initials">{{ title.split()[0][0] }}{{ title.split()[-1][0] }}</div>
+        {% endif %}
     </div>
     <h1>{{ title }}</h1>
 </div>
