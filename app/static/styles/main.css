@@ -1,102 +1,18 @@
-p, h1, h2, h3, h4, h5, h6, button {
-    font-family: "Roboto", serif;
+/* Small custom layer on top of Tailwind (loaded via CDN in base.html) */
+
+html {
+    scroll-behavior: smooth;
 }
 
-body {
-    background-color: #f5f5f9;
-    background-size: cover;
-    width: auto; 
-    overflow-x: hidden;
-    font-family: "Roboto", serif;
-    margin: 0px;
+::selection {
+    background: rgba(129, 140, 248, 0.3);
+    color: #e0e7ff;
 }
 
-.nav-bar {
-    width: 100%;
-    background-color: #1C539F;
-    font-family: "Roboto", serif;
-    font-weight: 700;
-}
+@media (prefers-reduced-motion: reduce) {
 
-.nav-content {
-    display: flex;
-    gap: 24px;
-    padding: 16px 24px;
-}
-
-.nav-content a {
-    color: white;
-    text-decoration: none;
-}
-
-.nav-content a:hover {
-    text-decoration: underline;
-}
-
-.content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 24px;
-}
-
-.section {
-    margin: 30px 0;
-}
-
-.section .list {
-    line-height: 1.8;
-}
-
-.hobby img,
-.map {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-.profile {
-    background-color: #1d539f !important;
-    text-align: center;
-    height: 320px;
-    margin-bottom: 50px;
-}
-
-.profile h1 {
-        font-size: 50px;
-        font-weight: 700;
-        color: white;
-}
-
-.profile img {
-        border-radius: 50%;
-        max-width: 100%;
-        max-height: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;        
-        padding: 20px;
-}
-
-.profile .profile-picture {
-    margin-bottom: 30px;
-    height: 200px;
-}
-
-.banner {
-    padding: 20px 0px 50px 0px;
-    height: 150px;
-    background-color: #1d539f;
-}
-
-.banner .logo {
-    max-width:180px;
-    max-height:60px;
-    width: auto;
-    height: auto;
-}
-
-.banner .title {
-    color: white;
-    font-size: 50px;
-    font-weight: 700;
+    .animate-fade-up,
+    [class*="animate-"] {
+        animation: none !important;
+    }
 }

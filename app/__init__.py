@@ -5,62 +5,177 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
-# Pages shown in the nav bar (label + route endpoint)
+
 PAGES = [
-    {"name": "Home", "endpoint": "index"},
-    {"name": "Experience", "endpoint": "experience"},
-    {"name": "Hobbies", "endpoint": "hobbies"},
-    {"name": "Travel", "endpoint": "travel"},
+    {"name": "Projects", "url": "/projects"},
+    {"name": "Hobbies", "url": "/hobbies"},
+    {"name": "Travel", "url": "/travel"},
 ]
 
-
-ABOUT = (
-    "I'm Tarek, a software engineer and researcher based in Vancouver. My work sits at the "
-    "intersection of AI and systems software, with a focus on Rust, software security, and "
-    "developer tooling. I enjoy building practical tools, contributing to open source, and "
-    "exploring how AI can help solve challenging engineering problems."
-)
-
+NAME = "Esosa Ohangbon"
+TAGLINE = "Software engineer, student at Carleton University."
 
 WORK = [
-    {"place": "Microsoft Research", "role": "Research Intern"},
-    {"place": "MLH @ Meta", "role": "Software Engineering Fellow"},
-    {"place": "Dell Technologies", "role": "Intern"},
-    {"place": "Vodafone", "role": "Intern"},
+    {
+        "place": "Shopify",
+        "role": "Infrastructure Engineer Intern",
+        "dates": "Incoming Fall 2026",
+        "tech": [],
+        "logo": "img/logos/shopify.png",
+    },
+    {
+        "place": "RBC",
+        "role": "Software Engineer Intern",
+        "dates": "Sep. 2025 - Present",
+        "description": "GitHub Enterprise migration and CI/CD tooling for RBC's developer platform.",
+        "tech": ["TypeScript", "GitHub Actions", "MongoDB", "RabbitMQ", "Terraform", "HashiCorp Vault"],
+        "logo": "img/logos/rbc.png",
+    },
+    {
+        "place": "Major League Hacking",
+        "role": "Production Engineering Fellow",
+        "dates": "Jun. 2026 - Present",
+        "description": "SRE and Production Engineering, in collaboration with Meta.",
+        "tech": ["Python", "Flask", "Docker", "Nginx"],
+        "logo": "img/logos/mlh.svg",
+    },
+    {
+        "place": "Google Summer of Code",
+        "role": "Open Source Developer (CNCF)",
+        "dates": "May 2025 - Sep. 2025",
+        "description": "TypeScript SDK for writing Kubernetes cluster admission policies.",
+        "tech": ["TypeScript", "Kubernetes", "WebAssembly"],
+        "logo": "img/logos/gsoc.png",
+    },
+    {
+        "place": "Carleton University",
+        "role": "Undergraduate Research Assistant",
+        "dates": "May 2024 - Dec. 2024",
+        "description": "Evaluated physician accuracy for cardiac radio-ablation therapy (CRA).",
+        "tech": ["Python"],
+        "logo": "img/logos/carleton.png",
+    },
 ]
-
 
 EDUCATION = [
-    {"school": "Mansoura University", "degree": "Bachelor's Degree in Computer Engineering and Systems"},
-    {"school": "Simon Fraser University", "degree": "Master of Science in Computing Science"},
+    {
+        "school": "Carleton University",
+        "degree": "Bachelor of Engineering in Software Engineering",
+        "dates": "Sep. 2023 - Apr. 2028",
+        "logo": "img/logos/carleton.png",
+    },
 ]
 
+PROJECTS = [
+    {
+        "name": "Playlifts",
+        "description": "A playlist transfer platform for Spotify and YouTube Music. ~200 users in the first week.",
+        "tech": ["React", "TypeScript", "Flask", "Celery", "Redis", "Docker"],
+        "demo": "https://playlifts.com",
+        "github": "https://github.com/esosaoh/Playlifts",
+    },
+    {
+        "name": "kubewarden/policy-sdk-js",
+        "description": "A JavaScript (and TypeScript) SDK for Kubewarden policies.",
+        "tech": ["TypeScript", "Kubernetes", "WebAssembly", "npm"],
+        "demo": None,
+        "github": "https://github.com/kubewarden/policy-sdk-js",
+    },
+    {
+        "name": "GitMentor",
+        "description": "An AI assistant for open-source contributors. Winner at cuHacking 6.",
+        "tech": ["Next.js", "TypeScript", "Python", "Flask", "Gemini API"],
+        "demo": "https://gitmentor.co",
+        "github": "https://github.com/esosaoh/git-mentor",
+    },
+    {
+        "name": "Budgetify",
+        "description": "A containerized budget tracking API.",
+        "tech": ["Java", "Spring Boot", "PostgreSQL", "Docker"],
+        "demo": None,
+        "github": "https://github.com/esosaoh/budgetify",
+    },
+    {
+        "name": "Compressr",
+        "description": "An implementation of the Huffman encoding algorithm for file compression.",
+        "tech": ["C++", "CMake", "Google Test"],
+        "demo": None,
+        "github": "https://github.com/esosaoh/compressr",
+    },
+    {
+        "name": "Carleton Courses",
+        "description": "A redesigned Carleton student portal. Built at Hack The Tunnels 2024.",
+        "tech": ["React", "TypeScript", "Node.js", "SCSS", "Prisma"],
+        "demo": None,
+        "github": "https://github.com/esosaoh/hack-the-tunnels",
+    },
+]
 
 HOBBIES = [
-    {"name": "Swimming", "image": "img/swimming.jpg"},
+    {"name": "Open Source", "image": None},
+    {"name": "Chess", "image": None},
 ]
+
+
+# Maps a tech name to its icon in static/img/tech/ (Simple Icons).
+# Techs without an entry fall back to a letter chip.
+TECH_ICONS = {
+    "Python": "python.svg",
+    "Flask": "flask.svg",
+    "Docker": "docker.svg",
+    "Nginx": "nginx.svg",
+    "Node.js": "nodedotjs.svg",
+    "Express": "express.svg",
+    "MongoDB": "mongodb.svg",
+    "RabbitMQ": "rabbitmq.svg",
+    "Terraform": "terraform.svg",
+    "HashiCorp Vault": "vault.svg",
+    "React": "react.svg",
+    "GitHub Actions": "githubactions.svg",
+    "TypeScript": "typescript.svg",
+    "Kubernetes": "kubernetes.svg",
+    "WebAssembly": "webassembly.svg",
+    "Celery": "celery.svg",
+    "Redis": "redis.svg",
+    "npm": "npm.svg",
+    "Next.js": "nextdotjs.svg",
+    "Gemini API": "googlegemini.svg",
+    "Java": "openjdk.svg",
+    "Spring Boot": "springboot.svg",
+    "PostgreSQL": "postgresql.svg",
+    "C++": "cplusplus.svg",
+    "CMake": "cmake.svg",
+    "SCSS": "sass.svg",
+    "Prisma": "prisma.svg",
+}
 
 
 @app.context_processor
-def inject_pages():
-    return {"pages": PAGES, "url": os.getenv("URL")}
+def inject_globals():
+    return {"url": os.getenv("URL"), "pages": PAGES, "name": NAME,
+            "tech_icons": TECH_ICONS}
 
 
 @app.route('/')
 def index():
-    return render_template('index.html', title="Tarek Elsayed", about=ABOUT)
+    return render_template('index.html', title=NAME, tagline=TAGLINE,
+                           work=WORK, education=EDUCATION,
+                           profile_img="img/EsosaOhangbon.jpg")
 
 
-@app.route('/experience')
-def experience():
-    return render_template('experience.html', title="Experience", work=WORK, education=EDUCATION)
+@app.route('/projects')
+def projects():
+    return render_template('projects.html', title="Projects",
+                           projects=PROJECTS)
 
 
 @app.route('/hobbies')
 def hobbies():
-    return render_template('hobbies.html', title="Hobbies", hobbies=HOBBIES)
+    return render_template('hobbies.html', title="Hobbies",
+                           hobbies=HOBBIES)
 
 
 @app.route('/travel')
 def travel():
-    return render_template('travel.html', title="Travel")
+    return render_template('travel.html', title="Travel",
+                           map_img="img/esosa_visited_map.png")
