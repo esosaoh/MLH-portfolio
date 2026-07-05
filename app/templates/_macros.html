@@ -1,0 +1,16 @@
+{% macro tech_badges(tech) %}
+{% if tech %}
+<div class="mt-2.5 flex flex-wrap gap-1.5">
+    {% for t in tech %}
+    <span class="group relative flex h-8 w-8 items-center justify-center rounded-md border border-zinc-800 bg-zinc-900/80 transition hover:-translate-y-0.5 hover:border-zinc-600">
+        {% if tech_icons.get(t) %}
+        <img src="{{ url_for('static', filename='img/tech/' + tech_icons[t]) }}" alt="{{ t }}" class="h-5 w-5">
+        {% else %}
+        <span class="text-xs font-bold text-zinc-400" aria-label="{{ t }}">{{ t[0] }}</span>
+        {% endif %}
+        <span class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded-md border border-zinc-700 bg-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-100 opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">{{ t }}</span>
+    </span>
+    {% endfor %}
+</div>
+{% endif %}
+{% endmacro %}

@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="section">
-    <h2>Travel</h2>
-    <p>Places I've visited:</p>
-    <img class="map" src="{{ url_for('static', filename=map_img) }}" alt="Map of visited places">
+<section class="animate-fade-up pt-16 sm:pt-20">
+    <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Travel</h1>
+    <p class="mt-2 text-zinc-400">Places I've visited.</p>
 </section>
+
+<div class="animate-fade-up mt-10 rounded-xl border border-zinc-800 bg-zinc-900/40 p-2.5 [animation-delay:120ms]">
+    <img src="{{ url_for('static', filename=map_img) }}" alt="Map of visited places"
+         class="w-full rounded-lg">
+</div>
 {% endblock %}

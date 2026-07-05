@@ -4,32 +4,61 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta property="og:title" content="Personal Portfolio">
-    <meta property="og:description" content="My Personal Portfolio">
+    <meta name="theme-color" content="#09090b">
+    <meta name="color-scheme" content="dark">
+    <meta property="og:title" content="{{ name }}">
+    <meta property="og:description" content="Personal portfolio of {{ name }}">
     <meta property="og:url" content="{{ url }}">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["ui-monospace", "SFMono-Regular", "SF Mono", "Menlo", "Consolas", "Liberation Mono", "monospace"],
+                    },
+                    keyframes: {
+                        "fade-up": {
+                            "0%": { opacity: "0", transform: "translateY(14px)" },
+                            "100%": { opacity: "1", transform: "translateY(0)" },
+                        },
+                    },
+                    animation: {
+                        "fade-up": "fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards",
+                    },
+                },
+            },
+        };
+    </script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon" />
     <title>{{ title }}</title>
 </head>
 
-<body>
-    <header class="nav-bar">
-        <nav class="nav-content">
+<body class="min-h-screen bg-zinc-950 font-sans text-zinc-100 antialiased">
+    <div class="pointer-events-none fixed inset-x-0 top-0 z-0 h-96 bg-[radial-gradient(ellipse_60%_100%_at_50%_-20%,rgba(99,102,241,0.13),transparent)]"></div>
+
+    <header class="sticky top-0 z-50 border-b border-zinc-800/70 bg-zinc-950/75 backdrop-blur-xl">
+        <nav class="mx-auto flex max-w-2xl items-center gap-1 px-6 py-4">
+            <a href="/" class="mr-auto text-[15px] font-semibold tracking-tight text-zinc-100 transition-colors hover:text-white">{{ name }}</a>
             {% for p in pages %}
-            <a href="{{ p.url }}">{{ p.name }}</a>
+            <a href="{{ p.url }}"
+               class="rounded-full px-3 py-1.5 text-sm font-medium transition-colors {{ 'bg-zinc-800/80 text-white' if request.path == p.url else 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100' }}">{{ p.name }}</a>
             {% endfor %}
         </nav>
     </header>
 
-    <main class="content">
+    <main class="relative z-10 mx-auto max-w-2xl px-6 pb-20">
         {% block content %}{% endblock %}
     </main>
+
+    <footer class="relative z-10 mx-auto max-w-2xl px-6">
+        <div class="border-t border-zinc-800/70 py-8 text-sm text-zinc-500">
+            &copy; 2026 {{ name }}
+        </div>
+    </footer>
 </body>
 
 </html>
