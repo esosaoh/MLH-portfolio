@@ -35,6 +35,7 @@ PAGES = [
     {"name": "Projects", "url": "/projects"},
     {"name": "Hobbies", "url": "/hobbies"},
     {"name": "Travel", "url": "/travel"},
+    {"name": "Timeline", "url": "/timeline"},
 ]
 
 NAME = "Esosa Ohangbon"
@@ -204,6 +205,11 @@ def hobbies():
 def travel():
     return render_template('travel.html', title="Travel",
                            map_img="img/esosa_visited_map.png")
+
+
+@app.route('/timeline')
+def timeline():
+    return render_template('timeline.html', title="Timeline")
 
 
 @app.route('/api/timeline_post', methods=['POST'])

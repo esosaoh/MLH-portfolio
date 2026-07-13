@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="animate-fade-up pt-16 sm:pt-20">
+    <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Timeline</h1>
+    <p class="mt-2 text-zinc-400">Updates from my school &amp; career journey.</p>
+</section>
+
+<form id="timeline-form"
+      class="animate-fade-up mt-10 space-y-4 rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 [animation-delay:120ms]">
+    <div class="grid gap-4 sm:grid-cols-2">
+        <input type="text" name="name" required placeholder="Name"
+               class="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-indigo-500">
+        <input type="email" name="email" required placeholder="Email"
+               class="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-indigo-500">
+    </div>
+    <textarea name="content" required rows="3" placeholder="What's happening in your journey?"
+              class="w-full resize-y rounded-lg border border-zinc-800 bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-indigo-500"></textarea>
+    <div class="flex items-center justify-between gap-4">
+        <p id="form-status" class="text-sm text-zinc-500"></p>
+        <button type="submit"
+                class="rounded-full bg-indigo-500 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-400 disabled:opacity-50">
+            Post
+        </button>
+    </div>
+</form>
+
+<div id="timeline-posts" class="animate-fade-up mt-10 space-y-4 [animation-delay:200ms]">
+    <p class="text-sm text-zinc-500">Loading posts&hellip;</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+<script>
+    const form = document.getElementById("timeline-form");
+    const postsContainer = document.getElementById("timeline-posts");
+    const status = document.getElementById("form-status");
+
+    function gravatarUrl(email) {
+        const hash = md5(email.trim().toLowerCase());
+        return `https://www.gravatar.com/avatar/${hash}?d=identicon&s=80`;
+    }
+
+    function renderPost(post) {
+        const card = document.createElement("article");
+        card.className = "flex gap-4 rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 transition-colors hover:border-zinc-700";
+
+        const avatar = document.createElement("img");
+        avatar.src = gravatarUrl(post.email);
+        avatar.alt = post.name;
+        avatar.className = "h-10 w-10 shrink-0 rounded-full border border-zinc-800";
+
+        const body = document.createElement("div");
+        body.className = "min-w-0";
+
+        const header = document.createElement("div");
+        header.className = "flex flex-wrap items-baseline gap-x-2";
+
+        const name = document.createElement("span");
+        name.textContent = post.name;
+        name.className = "text-sm font-semibold text-zinc-100";
+
+        const time = document.createElement("time");
+        time.textContent = new Date(post.created_at).toLocaleString();
+        time.className = "text-xs text-zinc-500";
+
+        const content = document.createElement("p");
+        content.textContent = post.content;
+        content.className = "mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-zinc-300";
+
+        header.append(name, time);
+        body.append(header, content);
+        card.append(avatar, body);
+        return card;
+    }
+
+    async function loadPosts() {
+        const res = await fetch("/api/timeline_post");
+        const data = await res.json();
+        postsContainer.replaceChildren();
+        if (data.timeline_posts.length === 0) {
+            const empty = document.createElement("p");
+            empty.textContent = "No posts yet. Be the first!";
+            empty.className = "text-sm text-zinc-500";
+            postsContainer.append(empty);
+            return;
+        }
+        for (const post of data.timeline_posts) {
+            postsContainer.append(renderPost(post));
+        }
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const button = form.querySelector("button");
+        button.disabled = true;
+        status.textContent = "";
+        try {
+            const res = await fetch("/api/timeline_post", {
+                method: "POST",
+                body: new FormData(form),
+            });
+            if (!res.ok) throw new Error(`Request failed (${res.status})`);
+            form.reset();
+            await loadPosts();
+        } catch (err) {
+            status.textContent = "Something went wrong. Please try again.";
+        } finally {
+            button.disabled = false;
+        }
+    });
+
+    loadPosts();
+</script>
+{% endblock %}
