@@ -7,7 +7,34 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      TESTING: "true"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Create virtual environment
+        run: python -m venv .venv
+
+      - name: Install dependencies
+        run: |
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          ./run_test.sh
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Configure SSH
@@ -28,3 +55,14 @@ jobs:
 
       - name: Print container status
         run: ssh my-vps "cd ${{ secrets.PROJECT_ROOT }} && docker compose -f docker-compose.prod.yml ps"
+
+      - name: Notify Discord on success
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment Successful"
+
+  notify-failure:
+    needs: [test, deploy]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord on failure
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deployment Failed"
