@@ -35,7 +35,6 @@ mydb.create_tables([TimelinePost])
 PAGES = [
     {"name": "Experience", "url": "/experience"},
     {"name": "Projects", "url": "/projects"},
-    {"name": "Hobbies", "url": "/hobbies"},
     {"name": "Travel", "url": "/travel"},
     {"name": "Timeline", "url": "/timeline"},
 ]
@@ -43,10 +42,19 @@ PAGES = [
 NAME = "Esosa Ohangbon"
 TAGLINE = "Software engineer, student at Carleton University."
 
+ABOUT_INTRO = "Third year software engineering student at Carleton University."
+ABOUT_POINTS = [
+    "I like open source and building things that ship.",
+    "Currently a Production Engineering Fellow at MLH.",
+]
+
+GITHUB_URL = "https://github.com/esosaoh"
+LINKEDIN_URL = os.getenv("LINKEDIN_URL", "https://linkedin.com/in/ohangbon")
+
 WORK = [
     {
         "place": "Shopify",
-        "role": "Infrastructure Engineer Intern",
+        "role": "Software Engineer Intern",
         "dates": "Incoming Fall 2026",
         "tech": [],
         "logo": "img/logos/shopify.png",
@@ -94,6 +102,21 @@ EDUCATION = [
     },
 ]
 
+# Places visited, plotted as pins on a live OpenStreetMap.
+VISITED_PLACES = [
+    {"name": "Dubai, UAE", "lat": 25.2048, "lng": 55.2708},
+    {"name": "Abu Dhabi, UAE", "lat": 24.4539, "lng": 54.3773},
+    {"name": "Lagos, Nigeria", "lat": 6.5244, "lng": 3.3792},
+    {"name": "Ottawa, Canada", "lat": 45.4215, "lng": -75.6972},
+    {"name": "Toronto, Canada", "lat": 43.6532, "lng": -79.3832},
+    {"name": "Dallas, USA", "lat": 32.7767, "lng": -96.7970},
+    {"name": "Houston, USA", "lat": 29.7604, "lng": -95.3698},
+    {"name": "Rome, Italy", "lat": 41.9028, "lng": 12.4964},
+    {"name": "London, UK", "lat": 51.5074, "lng": -0.1278},
+    {"name": "Ghana", "lat": 7.9465, "lng": -1.0232},
+    {"name": "Florida, USA", "lat": 27.6648, "lng": -81.5158},
+]
+
 PROJECTS = [
     {
         "name": "Playlifts",
@@ -117,6 +140,20 @@ PROJECTS = [
         "github": "https://github.com/esosaoh/git-mentor",
     },
     {
+        "name": "dodo",
+        "description": "Fast and accurate website link checker.",
+        "tech": ["Go", "SQLite"],
+        "demo": None,
+        "github": "https://github.com/esosaoh/dodo",
+    },
+    {
+        "name": "ferrum",
+        "description": "Distributed message broker (Apache Kafka clone).",
+        "tech": ["Rust", "Tokio"],
+        "demo": None,
+        "github": "https://github.com/esosaoh/ferrum",
+    },
+    {
         "name": "Budgetify",
         "description": "A containerized budget tracking API.",
         "tech": ["Java", "Spring Boot", "PostgreSQL", "Docker"],
@@ -137,11 +174,6 @@ PROJECTS = [
         "demo": None,
         "github": "https://github.com/esosaoh/hack-the-tunnels",
     },
-]
-
-HOBBIES = [
-    {"name": "Open Source", "image": None},
-    {"name": "Chess", "image": None},
 ]
 
 
@@ -175,6 +207,10 @@ TECH_ICONS = {
     "CMake": "cmake.svg",
     "SCSS": "sass.svg",
     "Prisma": "prisma.svg",
+    "Go": "go.svg",
+    "Rust": "rust.svg",
+    "SQLite": "sqlite.svg",
+    "Tokio": "tokio.svg",
 }
 
 
@@ -187,6 +223,8 @@ def inject_globals():
 @app.route('/')
 def index():
     return render_template('index.html', title=NAME, tagline=TAGLINE,
+                           about_intro=ABOUT_INTRO, about_points=ABOUT_POINTS,
+                           github_url=GITHUB_URL, linkedin_url=LINKEDIN_URL,
                            profile_img="img/EsosaOhangbon.jpg")
 
 
@@ -202,16 +240,10 @@ def projects():
                            projects=PROJECTS)
 
 
-@app.route('/hobbies')
-def hobbies():
-    return render_template('hobbies.html', title="Hobbies",
-                           hobbies=HOBBIES)
-
-
 @app.route('/travel')
 def travel():
     return render_template('travel.html', title="Travel",
-                           map_img="img/esosa_visited_map.png")
+                           visited=VISITED_PLACES)
 
 
 @app.route('/timeline')
