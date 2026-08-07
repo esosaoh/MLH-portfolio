@@ -33,6 +33,7 @@ mydb.create_tables([TimelinePost])
 
 
 PAGES = [
+    {"name": "Experience", "url": "/experience"},
     {"name": "Projects", "url": "/projects"},
     {"name": "Hobbies", "url": "/hobbies"},
     {"name": "Travel", "url": "/travel"},
@@ -186,8 +187,13 @@ def inject_globals():
 @app.route('/')
 def index():
     return render_template('index.html', title=NAME, tagline=TAGLINE,
-                           work=WORK, education=EDUCATION,
                            profile_img="img/EsosaOhangbon.jpg")
+
+
+@app.route('/experience')
+def experience():
+    return render_template('experience.html', title="Experience",
+                           work=WORK, education=EDUCATION)
 
 
 @app.route('/projects')
