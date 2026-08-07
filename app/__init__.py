@@ -56,6 +56,7 @@ WORK = [
         "place": "Shopify",
         "role": "Software Engineer Intern",
         "dates": "Incoming Fall 2026",
+        "description": "Database Platform team, working on Core MySQL.",
         "tech": [],
         "logo": "img/logos/shopify.png",
     },
