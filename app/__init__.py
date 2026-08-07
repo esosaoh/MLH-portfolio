@@ -44,7 +44,7 @@ TAGLINE = "Software engineer, student at Carleton University."
 
 ABOUT_INTRO = "Third year software engineering student at Carleton University."
 ABOUT_POINTS = [
-    "I like open source and building things that ship.",
+    "I like open source and building things that scale.",
     "Currently a Production Engineering Fellow at MLH.",
 ]
 
